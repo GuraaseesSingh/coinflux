@@ -1,72 +1,72 @@
 # Coinflux
 
-A Next.js (App Router) web app built with React, TypeScript, Tailwind CSS and shadcn/ui.
+Coinflux is a responsive cryptocurrency dashboard built with Next.js, React, TypeScript, Tailwind CSS, and Recharts.
 
-## Prerequisites
+## Requirements
 
-- **Node.js** 20 or newer (tested with Node 22)
-- **pnpm** (the repo pins `pnpm@12.3.4` in `package.json`)
+- Node.js 20.9 or newer
+- npm (included with Node.js)
+- Git
+- Internet access for the optional live Binance ticker
 
-Install pnpm if you don't have it:
+## Run locally
 
-```bash
-npm install -g pnpm
-```
-
-## Run the project locally
-
-1. Clone the repository and open the project folder:
+1. Clone the repository and enter the project directory:
 
    ```bash
-   git clone https://github.com/aasees11/coinflux.git
+   git clone https://github.com/GuraaseesSingh/coinflux.git
    cd coinflux
    ```
 
-2. Install dependencies:
+2. Install the project-pinned pnpm version:
 
    ```bash
-   pnpm install
+   npm install --global pnpm@12.3.4
    ```
 
-3. Start the development server:
+3. Install dependencies from the lockfile:
+
+   ```bash
+   pnpm install --frozen-lockfile
+   ```
+
+4. Start the Next.js development server:
 
    ```bash
    pnpm dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. Open the local URL printed in the terminal. By default, it is:
 
-## Build and run the production build
+   ```text
+   http://localhost:3000
+   ```
 
-Run these before deploying to make sure the project compiles cleanly:
+   If port 3000 is already in use, Next.js will print the alternate port it selected.
+
+## Environment variables
+
+No application-specific environment variables or API keys are required for local development. Coinflux uses sample market data and connects from the browser to Binance's public WebSocket for supported live ticker pairs. The live ticker requires an internet connection; unsupported pairs continue to use the sample prices. Vercel Analytics is enabled only in production.
+
+## Main routes
+
+- `/` — dashboard
+- `/markets` — searchable market table and category filters
+- `/watchlist` — watchlisted assets
+- `/coin/bitcoin` — coin detail page (replace `bitcoin` with a supported coin ID)
+- `/myflux` — subscribed assets and live ticker status
+- `/my-assets`, `/mytokens`, `/subscribed` — subscription-view aliases
+
+## Available scripts
 
 ```bash
-pnpm build
-pnpm start
+pnpm dev      # Start the development server
+pnpm build    # Create a production build
+pnpm start    # Serve the production build; run pnpm build first
 ```
 
-`pnpm start` serves the production build at [http://localhost:3000](http://localhost:3000).
+## Notes
 
-## Scripts
-
-| Command      | What it does                          |
-| ------------ | ------------------------------------- |
-| `pnpm dev`   | Start the Next.js dev server          |
-| `pnpm build` | Create an optimized production build  |
-| `pnpm start` | Serve the production build            |
-
-## Deploy to Vercel
-
-1. Push this repository to GitHub.
-2. In Vercel, click **Add New → Project** and import the repository.
-3. Keep the detected settings: framework preset **Next.js**, install command `pnpm install`, build command `pnpm build`, output directory left blank.
-4. Click **Deploy**.
-
-Vercel runs the same `pnpm install` and `pnpm build` steps listed above, so a successful local `pnpm build` means the Vercel build should succeed too.
-
-## Project structure
-
-- `app/` - routes and layouts (App Router)
-- `components/ui/` - shadcn/ui components
-- `lib/` - shared utilities and coin data helpers
-- `public/` - static assets
+- Market summaries and chart history are sample data; live prices are only applied to supported Binance pairs while the MyFlux or a subscribed coin-detail view is active.
+- Watchlist and subscription selections are held in client memory. They persist while navigating within the app, but reset after a full page refresh.
+- There is no test or lint script configured in `package.json`.
